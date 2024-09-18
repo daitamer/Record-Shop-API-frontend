@@ -1,4 +1,4 @@
-package com.example.recordshopapp;
+package com.example.recordshopapp.ui.mainactivity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +9,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.recordshopapp.R;
 import com.example.recordshopapp.model.Album;
 import com.example.recordshopapp.service.AlbumApiService;
 import com.example.recordshopapp.service.RetrofitInstance;
