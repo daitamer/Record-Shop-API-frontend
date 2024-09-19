@@ -51,7 +51,7 @@
             android:id="@+id/album_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{Integer.toString(album.price)}"/>
+            android:text="@{String.valueOf(album.price)}"/>
 
 
     </RelativeLayout>

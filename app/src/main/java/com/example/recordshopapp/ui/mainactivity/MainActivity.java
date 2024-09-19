@@ -1,65 +1,70 @@
 package com.example.recordshopapp.ui.mainactivity;
 
 import android.os.Bundle;
-import android.util.Log;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recordshopapp.R;
+import com.example.recordshopapp.databinding.ActivityMainBindingImpl;
 import com.example.recordshopapp.model.Album;
-import com.example.recordshopapp.service.AlbumApiService;
-import com.example.recordshopapp.service.RetrofitInstance;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import android.widget.Toast;
-
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private List<Album> albumList;
-//    private AlbumAdapter albumAdapter;
-//    private ActivityMainBinding binding;
+    private ArrayList<Album> albumList;
+    private AlbumAdapter albumAdapter;
     private MainActivityViewModel viewModel;
+    private ActivityMainBindingImpl binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-//        AlbumApiService service = RetrofitInstance.getRetrofitInstance().create(AlbumApiService.class);
-//        Call<List<Album>> call = service.getAllAlbums();
-//
-//        call.enqueue(new Callback<List<Album>>() {
-//            @Override
-//            public void onResponse(Call<List<Album>> call, Response<List<Album>> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    List<Album> albums = response.body();
-//
-//                    Log.d("MainActivity", "Albums fetched successfully: " + albums);
-//                } else {
-//                    Log.d("MainActivity", "Failed to fetch albums");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Album>> call, Throwable t) {
-//                Log.e("MainActivity", "Error fetching albums: " + t.getMessage());
-//            }
-//        });
-//
-//
+        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+
+        getAllAlbums();
+
     }
+
+    private void getAllAlbums() {
+        viewModel.getAlbums().observe(this, new Observer<List<Album>>() {
+
+            @Override
+            public void onChanged(List<Album> albumsFromLiveData) {
+
+                albumList = (ArrayList<Album>) albumsFromLiveData;
+
+                displayInRecyclerView();
+
+            }
+        });
+    }
+
+    private void displayInRecyclerView() {
+
+        recyclerView = binding.recyclerview;
+
+        albumAdapter = new AlbumAdapter(albumList, this);
+
+        recyclerView.setAdapter(albumAdapter);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        recyclerView.setHasFixedSize(true);
+
+        albumAdapter.notifyDataSetChanged();
+
+    }
+
 }
