@@ -1,6 +1,8 @@
 package com.example.recordshopapp.model;
 
 import android.app.Application;
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import com.example.recordshopapp.service.AlbumApiService;
 import com.example.recordshopapp.service.RetrofitInstance;
@@ -11,20 +13,16 @@ import retrofit2.Response;
 
 public class AlbumRepository {
 
-    private final MutableLiveData<List<Album>> mutableLiveData;
-    private final AlbumApiService albumApiService;
+    private MutableLiveData<List<Album>> mutableLiveData;
+    private Application application;
 
     public AlbumRepository(Application application) {
-        mutableLiveData = new MutableLiveData<>();
-        albumApiService = RetrofitInstance.getRetrofitInstance().create(AlbumApiService.class);
-        fetchAlbums();
+        this.application = application;
     }
 
-    public MutableLiveData<List<Album>> getMutableLiveData() {
-        return mutableLiveData;
-    }
 
-    private void fetchAlbums() {
+    public MutableLiveData<List<Album>> getAllAlbums() {
+        AlbumApiService albumApiService = RetrofitInstance.getService();
         Call<List<Album>> call = albumApiService.getAllAlbums();
         call.enqueue(new Callback<List<Album>>() {
             @Override
@@ -40,7 +38,9 @@ public class AlbumRepository {
             @Override
             public void onFailure(Call<List<Album>> call, Throwable t) {
                 mutableLiveData.setValue(null);
+                Log.e("GET request", t.getMessage());
             }
         });
+        return mutableLiveData;
     }
 }
