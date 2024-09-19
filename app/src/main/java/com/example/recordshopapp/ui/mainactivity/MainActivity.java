@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.recordshopapp.R;
 import com.example.recordshopapp.model.Album;
@@ -31,25 +32,25 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+
         AlbumApiService service = RetrofitInstance.getRetrofitInstance().create(AlbumApiService.class);
         Call<List<Album>> call = service.getAllAlbums();
 
         call.enqueue(new Callback<List<Album>>() {
             @Override
             public void onResponse(Call<List<Album>> call, Response<List<Album>> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     List<Album> albums = response.body();
 
                     Log.d("MainActivity", "Albums fetched successfully: " + albums);
                 } else {
-                    Toast.makeText(MainActivity.this, "Failed to fetch albums", Toast.LENGTH_SHORT).show();
+                    Log.d("MainActivity", "Failed to fetch albums");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Album>> call, Throwable t) {
                 Log.e("MainActivity", "Error fetching albums: " + t.getMessage());
-                Toast.makeText(MainActivity.this, "Error fetching albums", Toast.LENGTH_SHORT).show();
             }
         });
 

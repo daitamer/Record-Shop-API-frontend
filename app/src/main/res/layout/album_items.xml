@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="album"
+            type="com.example.recordshopapp.model.Album" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/album_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{album.title}"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/album_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/album_title"
+            android:text="@{album.artist}"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/album_genre"
+            android:layout_width="228dp"
+            android:layout_height="0dp"
+            android:layout_below="@id/album_artist"
+            android:layout_marginTop="137dp"
+            android:text="@{album.genre}"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/album_release_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/album_genre"
+            android:text="@{album.releaseYear}"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent" />-->
+
+<!--                <TextView-->
+<!--            android:id="@+id/album_price"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@{album.price}"/>-->
+
+
+    </RelativeLayout>
+</layout>
