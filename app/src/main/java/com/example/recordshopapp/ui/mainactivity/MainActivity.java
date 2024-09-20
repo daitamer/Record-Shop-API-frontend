@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel viewModel;
     private ActivityMainBindingImpl binding;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +58,15 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(albumAdapter);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         recyclerView.setHasFixedSize(true);
 
         albumAdapter.notifyDataSetChanged();
 
+
     }
+
 
 }

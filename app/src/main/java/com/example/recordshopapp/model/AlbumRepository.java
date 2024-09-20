@@ -18,8 +18,8 @@ public class AlbumRepository {
 
     public AlbumRepository(Application application) {
         this.application = application;
+        this.mutableLiveData = new MutableLiveData<>();
     }
-
 
     public MutableLiveData<List<Album>> getAllAlbums() {
         AlbumApiService albumApiService = RetrofitInstance.getService();
@@ -27,17 +27,13 @@ public class AlbumRepository {
         call.enqueue(new Callback<List<Album>>() {
             @Override
             public void onResponse(Call<List<Album>> call, Response<List<Album>> response) {
-                if (response.isSuccessful() && response.body() != null) {
+
                     List<Album> albums = response.body();
-                    mutableLiveData.setValue(albums);
-                } else {
-                    mutableLiveData.setValue(null);
-                }
+                mutableLiveData.setValue(albums);
             }
 
             @Override
             public void onFailure(Call<List<Album>> call, Throwable t) {
-                mutableLiveData.setValue(null);
                 Log.e("GET request", t.getMessage());
             }
         });
